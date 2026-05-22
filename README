@@ -1,0 +1,323 @@
+# Drilling Analytics & AI Optimization Pipeline
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
+![SQLite](https://img.shields.io/badge/Database-SQLite-lightgrey?style=for-the-badge&logo=sqlite)
+![Google Gemini](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-orange?style=for-the-badge&logo=google)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
+
+### Production-grade drilling analytics platform for OSDU telemetry ingestion, drilling KPI computation, and AI-driven optimization.
+
+</div>
+
+---
+
+# Overview
+
+This project is a modular Python-based drilling analytics pipeline designed to ingest high-frequency telemetry logs, compute advanced rock-mechanics KPIs, and generate automated engineering insights using Generative AI.
+
+The platform standardizes heterogeneous drilling data, classifies rig operational states, computes Mechanical Specific Energy (MSE), and leverages Google Gemini for technical interpretation and optimization recommendations.
+
+---
+
+# Core Features
+
+- High-frequency OSDU-compatible telemetry ingestion
+- Automated ETL and mnemonic normalization
+- Rig state classification (*On-Bottom Drilling* vs *Tripping*)
+- Mechanical Specific Energy (MSE) computation
+- Historical interval analytics with SQL aggregation
+- AI-generated engineering recommendations
+- Automated duplicate ingestion protection
+- Modular and production-oriented architecture
+
+---
+
+# Architecture & Component Topology
+
+The system is structured into five interconnected functional layers.
+
+---
+
+## 1. `db_schema.py` — Storage Initializer
+
+Responsible for database bootstrapping and schema management.
+
+### Responsibilities
+
+- Removes legacy database artifacts
+- Initializes a clean SQLite relational schema
+- Creates structured tables for:
+  - Wells
+  - Curve Catalogs
+  - Time-Series Telemetry
+  - File Processing Logs
+
+### Database Output
+
+```text
+database/drilling.db
+```
+
+---
+
+## 2. `loader.py` — Feature Engineering & Ingestion Engine
+
+Core ETL and preprocessing engine.
+
+### Responsibilities
+
+- Ingests raw drilling CSV logs
+- Standardizes telemetry mnemonics
+- Applies operational drilling constraints
+- Determines rig operational states:
+  - On-Bottom Drilling
+  - Tripping
+- Computes Mechanical Specific Energy (MSE)
+
+### Engineering Logic
+
+- Dynamic telemetry filtering
+- Rig-state detection
+- Physics-based KPI computation
+
+---
+
+## 3. `orchestrator.py` — Pipeline Automation Controller
+
+Automation layer responsible for ingestion orchestration.
+
+### Responsibilities
+
+- Recursively scans `data_input/`
+- Detects unprocessed telemetry logs
+- Prevents duplicate ingestion using immutable log tracking
+- Routes new files into the ETL workflow
+
+### Benefits
+
+- Automated execution
+- Safe ingestion handling
+- Scalable pipeline operations
+
+---
+
+## 4. `efficiency_evaluator.py` — Analytics & Evaluation Core
+
+Primary analytics engine for drilling performance assessment.
+
+### Responsibilities
+
+- Queries historical telemetry intervals
+- Uses parameterized SQL analytics windows
+- Isolates active drilling intervals:
+  - `ROP > 0.5`
+  - `WOB > 0.5`
+- Computes comparative operational statistics
+- Builds engineering evaluation payloads
+
+### Output Metrics
+
+- Performance medians
+- Drilling efficiency comparisons
+- Operational benchmarking indicators
+
+---
+
+## 5. `ai_consultant.py` — GenAI Advisory Layer
+
+Cognitive analytics layer powered by Google Gemini.
+
+### Responsibilities
+
+- Connects to the Google GenAI SDK
+- Uses `gemini-2.5-flash`
+- Processes structured engineering metrics
+- Generates AI-assisted drilling recommendations
+
+### AI Analysis Domains
+
+- Downhole vibration diagnostics
+- Hydraulic cleaning evaluation
+- Drilling optimization
+- Operational anomaly interpretation
+
+---
+
+# Project Structure
+
+```text
+Drilling_Analysis/
+│
+├── database/
+│   └── drilling.db
+│
+├── data_input/
+│   └── *.csv
+│
+├── db_schema.py
+├── loader.py
+├── orchestrator.py
+├── efficiency_evaluator.py
+├── ai_consultant.py
+├── requirements.txt
+├── .env
+└── README.md
+```
+
+---
+
+# Infrastructure Setup & Installation
+
+## 1. Clone the Repository
+
+```bash
+git clone <YOUR_REPOSITORY_URL>
+cd Drilling_Analysis
+```
+
+---
+
+## 2. Install Dependencies
+
+Install all required Python libraries and SDK dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 3. Configure Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+GEMINI_API_KEY=your_actual_google_genai_api_key_here
+```
+
+---
+
+# Execution Workflow
+
+To execute the complete pipeline from ingestion to AI-driven analytics, follow the sequence below.
+
+---
+
+## Step 1 — Initialize the Database
+
+Prepare the SQLite schema before the first execution or after a database reset.
+
+### Command
+
+```bash
+python db_schema.py
+```
+
+---
+
+## Step 2 — Run Automated File Ingestion
+
+Place raw telemetry CSV files inside the `data_input/` directory.
+
+### Command
+
+```bash
+python orchestrator.py
+```
+
+---
+
+## Step 3 — Execute Analytics & AI Evaluation
+
+Run the analytics engine to isolate drilling intervals, compute KPIs, and generate AI engineering insights.
+
+### Command
+
+```bash
+python efficiency_evaluator.py
+```
+
+---
+
+# Engineering Concepts Implemented
+
+## Drilling KPIs
+
+- Mechanical Specific Energy (MSE)
+- Rate of Penetration (ROP)
+- Weight on Bit (WOB)
+- Rig State Classification
+
+## Data Engineering
+
+- ETL Pipelines
+- SQL Window Analytics
+- Data Normalization
+- Automated File Tracking
+
+## AI & Automation
+
+- Prompt Engineering
+- Generative AI Reporting
+- Automated Operational Diagnostics
+- Engineering Recommendation Systems
+
+---
+
+# Technology Stack
+
+| Layer | Technology |
+|---|---|
+| Language | Python |
+| Database | SQLite |
+| Data Processing | Pandas / NumPy |
+| AI Engine | Google Gemini 2.5 Flash |
+| Configuration | python-dotenv |
+| Architecture | Modular ETL Pipeline |
+
+---
+
+# Example Pipeline Flow
+
+```text
+Raw CSV Logs
+      ↓
+Telemetry Standardization
+      ↓
+Rig State Classification
+      ↓
+KPI Computation (MSE)
+      ↓
+Historical Analytics
+      ↓
+AI Engineering Interpretation
+      ↓
+Optimization Recommendations
+```
+
+---
+
+# Future Improvements
+
+- Real-time streaming ingestion
+- Dashboard visualization layer
+- Multi-well benchmarking
+- Cloud-native deployment
+- OSDU API integration
+- ML-based drilling dysfunction prediction
+
+---
+
+# License
+
+This project is licensed under the MIT License.
+
+See the `LICENSE` file for additional details.
+
+---
+
+# Author
+
+Developed as a production-oriented drilling analytics and AI engineering platform focused on telemetry intelligence, operational optimization, and automated technical reporting.
