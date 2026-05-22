@@ -2,3 +2,5 @@ google-genai
 pandas
 numpy
 python-dotenv
+sqlalchemy
+tabulate
