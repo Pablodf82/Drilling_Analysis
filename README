@@ -158,7 +158,7 @@ Cognitive analytics layer powered by Google Gemini.
 # Project Structure
 
 ```text
-Drilling_Analysis/
+Drilling_Performance_Analyst_Python/
 │
 ├── database/
 │   └── drilling.db
@@ -184,7 +184,7 @@ Drilling_Analysis/
 
 ```bash
 git clone <YOUR_REPOSITORY_URL>
-cd Drilling_Analysis
+cd Drilling_Performance_Analyst_Python
 ```
 
 ---
